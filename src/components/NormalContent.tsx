@@ -30,7 +30,7 @@ const blogPosts = [
 export default function NormalContent() {
   return (
     <div className="container bg-white rounded shadow p-4 mb-4">
-      <h1 className="text-center mb-4">Welcome to TechBlog</h1>
+      <h1 className="text-center mb-4">Welcome to HTTPX</h1>
       <div className="row">
         {blogPosts.map((post) => (
           <motion.div
