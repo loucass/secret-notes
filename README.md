@@ -20,5 +20,5 @@
 
 ### **Managing Notes**
 - Add new notes.
-<!-- - Use the search functionality to find notes quickly. -->
+- Use the search functionality to find notes quickly.
 - Star, archive, or lock notes as needed.
