@@ -100,8 +100,9 @@ export default function SecretNotes({ onClose }) {
 
   const filteredNotes = searchTerm
   ? notes.filter(note =>
-      note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.content.toLowerCase().includes(searchTerm.toLowerCase())
+      // note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      // note.content.toLowerCase().includes(searchTerm.toLowerCase())
+      note.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
   : notes;
 
