@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/custom.css'
@@ -7,11 +7,17 @@ interface PasswordModalProps {
   isOpen: boolean
   onClose: () => void
   onSubmit: (password: string) => void
-  mode: 'set' | 'enter'
+  mode: 'lock' | 'unlock'
 }
 
 export default function PasswordModal({ isOpen, onClose, onSubmit, mode }: PasswordModalProps) {
   const [password, setPassword] = useState('')
+
+  useEffect(() => {
+    if (isOpen) {
+      setPassword('')
+    }
+  }, [isOpen])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -22,7 +28,7 @@ export default function PasswordModal({ isOpen, onClose, onSubmit, mode }: Passw
   return (
     <Modal show={isOpen} onHide={onClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{mode === 'set' ? 'Set Password' : 'Enter Password'}</Modal.Title>
+        <Modal.Title>{mode === 'lock' ? 'Set Password' : 'Enter Password'}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -31,7 +37,7 @@ export default function PasswordModal({ isOpen, onClose, onSubmit, mode }: Passw
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder={mode === 'set' ? 'Enter new password' : 'Enter password'}
+              placeholder={mode === 'lock' ? 'Enter new password' : 'Enter password'}
               required
             />
           </Form.Group>
@@ -42,7 +48,7 @@ export default function PasswordModal({ isOpen, onClose, onSubmit, mode }: Passw
           Cancel
         </Button>
         <Button variant="primary" onClick={() => onSubmit(password)}>
-          {mode === 'set' ? 'Set Password' : 'Unlock'}
+          {mode === 'lock' ? 'Lock Note' : 'Unlock Note'}
         </Button>
       </Modal.Footer>
     </Modal>

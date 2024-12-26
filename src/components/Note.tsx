@@ -13,7 +13,6 @@ export default function Note({ note, onClose, onUpdate, onDelete }) {
   const [isDark, setIsDark] = useState(note.isDark || true)
   const [isFavorite, setIsFavorite] = useState(note.favorite)
   const [isArchived, setIsArchived] = useState(note.archived)
-  const [isLocked, setIsLocked] = useState(note.locked)
 
   useEffect(() => {
     setTitle(note.title)
@@ -21,11 +20,10 @@ export default function Note({ note, onClose, onUpdate, onDelete }) {
     setIsDark(note.isDark || true)
     setIsFavorite(note.favorite)
     setIsArchived(note.archived)
-    setIsLocked(note.locked)
   }, [note])
 
   const handleSave = () => {
-    onUpdate({ ...note, title, content, isDark, favorite: isFavorite, archived: isArchived, locked: isLocked })
+    onUpdate({ ...note, title, content, isDark, favorite: isFavorite, archived: isArchived })
     onClose()
   }
 
@@ -42,21 +40,15 @@ export default function Note({ note, onClose, onUpdate, onDelete }) {
   }
 
   const toggleLock = () => {
-    if (isLocked) {
-      const password = prompt("Enter password to unlock:")
-      if (password === note.password) {
-        setIsLocked(false)
-      } else {
-        alert("Incorrect password")
-      }
+    if (note.locked) {
+      onUpdate({ ...note, locked: false, password: null });
     } else {
-      const password = prompt("Enter a password to lock the note:")
+      const password = prompt("Enter a password to lock the note:");
       if (password) {
-        setIsLocked(true)
-        onUpdate({ ...note, locked: true, password })
+        onUpdate({ ...note, locked: true, password });
       }
     }
-  }
+  };
 
   return (
     <Modal show={true} onHide={onClose} centered dialogClassName={`note-modal ${isDark ? 'dark' : 'light'}`}>
@@ -99,7 +91,7 @@ export default function Note({ note, onClose, onUpdate, onDelete }) {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={toggleLock}
-              className={`btn btn-link p-1 ${isLocked ? 'text-success' : ''}`}
+              className={`btn btn-link p-1 ${note.locked ? 'text-success' : ''}`}
             >
               <Lock size={14} />
             </motion.button>
@@ -121,7 +113,7 @@ export default function Note({ note, onClose, onUpdate, onDelete }) {
           className="form-control"
           rows={10}
           placeholder="Start typing your note..."
-          disabled={isLocked}
+          disabled={note.locked}
         />
       </Modal.Body>
       <Modal.Footer>

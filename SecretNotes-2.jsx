@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Note from './Note.tsx'
+import Note from './Note'
 import { X, Plus, Star, Archive, Lock } from 'lucide-react'
-import PasswordModal from './PasswordModal.tsx'
+import PasswordModal from './PasswordModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/custom.css'
 import SecretSearchBar from './SecretSearchBar'
@@ -14,32 +14,29 @@ export default function SecretNotes({ onClose }) {
   const [selectedNote, setSelectedNote] = useState(null)
   const [showArchived, setShowArchived] = useState(false)
   const [passwordModalOpen, setPasswordModalOpen] = useState(false)
-  const [passwordModalMode, setPasswordModalMode] = useState<'lock' | 'unlock'>('lock')
-  const [activeNoteId, setActiveNoteId] = useState<number | null>(null)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [passwordModalMode, setPasswordModalMode] = useState('set')
+  const [activeNoteId, setActiveNoteId] = useState(null)
+  const [filteredNotes, setFilteredNotes] = useState(notes)
 
   useEffect(() => {
-    const storedNotes = JSON.parse(localStorage.getItem('secretNotes'))
-    // const storedNotes = localStorage.getItem('secretNotes')
-    console.log(storedNotes);
+    const storedNotes = localStorage.getItem('secretNotes')
     if (storedNotes) {
       try {
-        setNotes(storedNotes)
-        console.log(notes);
+        const parsedNotes = JSON.parse(storedNotes)
+        setNotes(parsedNotes)
       } catch (error) {
         console.error('Error parsing stored notes:', error)
+        setNotes([])
       }
     }
   }, [])
 
   useEffect(() => {
-    if (notes.length >= 1) {
-      try {
-        console.log(notes , JSON.stringify(notes));
-        localStorage.setItem('secretNotes', JSON.stringify(notes))
-      } catch (error) {
-        console.error('Error saving notes to localStorage:', error)
-      }
+    try {
+      localStorage.setItem('secretNotes', JSON.stringify(notes))
+      setFilteredNotes(notes)
+    } catch (error) {
+      console.error('Error saving notes to localStorage:', error)
     }
   }, [notes])
 
@@ -64,7 +61,7 @@ export default function SecretNotes({ onClose }) {
     setNotes(notes.map((note) => note.id === id ? { ...note, archived: !note.archived } : note))
   }
 
-  const toggleLock = (id: number) => {
+  const toggleLock = (id) => {
     const note = notes.find((note) => note.id === id)
     if (note?.locked) {
       setPasswordModalMode('unlock')
@@ -75,7 +72,7 @@ export default function SecretNotes({ onClose }) {
     setPasswordModalOpen(true)
   }
 
-  const handlePasswordSubmit = (password: string) => {
+  const handlePasswordSubmit = (password) => {
     if (passwordModalMode === 'lock') {
       setNotes(notes.map((note) => 
         note.id === activeNoteId ? { ...note, locked: true, password } : note
@@ -94,16 +91,17 @@ export default function SecretNotes({ onClose }) {
     setPasswordModalOpen(false)
   }
 
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
+  const handleSearch = (searchTerm) => {
+    if (searchTerm === '') {
+      setFilteredNotes(notes)
+    } else {
+      const filtered = notes.filter(note => 
+        note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        note.content.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      setFilteredNotes(filtered)
+    }
   }
-
-  const filteredNotes = searchTerm
-  ? notes.filter(note =>
-      note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.content.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  : notes;
 
   const handleNoteSelect = (note) => {
     if (note.locked) {

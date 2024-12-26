@@ -126,3 +126,62 @@ body {
 .note-modal .form-control:focus {
   box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
 }
+
+/* SearchBar styles */
+.search-bar-container {
+  position: relative;
+  z-index: 10;
+}
+
+.search-bar-container input {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+}
+
+.search-bar-container input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-bar-container button {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+}
+
+.search-bar-container button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* SecretSearchBar styles */
+.secret-search-bar {
+  position: relative;
+}
+
+.secret-search-bar .form-control {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.secret-search-bar .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.secret-search-bar .btn-outline-secondary {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.secret-search-bar .btn-outline-secondary:hover,
+.secret-search-bar .btn-outline-secondary:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.secret-search-bar .input-group {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem;
+}
+
+.secret-search-bar .input-group:focus-within {
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+}
