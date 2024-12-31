@@ -5,10 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import NormalContent from './components/NormalContent.tsx'
 import SecretNotes from './components/SecretNotes.tsx'
 import MockData from './components/MockData.tsx'
+import MobileSearch from './components/MobileSearch.tsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles/custom.css'
 
-export default function App() {
+export default function Home() {
   const [showSecret, setShowSecret] = useState(false)
   const [keySequence, setKeySequence] = useState('')
 
@@ -38,8 +39,17 @@ export default function App() {
     setKeySequence('');
   };
 
+  const handleMobileSearch = (searchTerm) => {
+    if (searchTerm.toLowerCase() === 'open' || searchTerm === 'your_secret_password') {
+      setShowSecret(true);
+    }
+  };
+
   return (
     <main className="min-vh-100 d-flex flex-column justify-content-center align-items-center p-4 position-relative overflow-hidden">
+      {!showSecret && (
+        <MobileSearch onSearch={handleMobileSearch} />
+      )}
       <AnimatePresence mode="wait">
         {!showSecret ? (
           <motion.div

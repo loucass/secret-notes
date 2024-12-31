@@ -3,6 +3,7 @@
 **Secret Notes** is a unique and creative note-taking application designed to look like a simple weather app at first glance. Upon entering a specific password, the interface transforms into a beautifully designed note-taking platform with a macOS-inspired aesthetic.
 <br /><br />
 **By typing "open" the secret notes will open**
+or in the mobile view it will display a search input to type the password
 
 ## Features
 

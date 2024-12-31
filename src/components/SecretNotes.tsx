@@ -7,7 +7,7 @@ import { X, Plus, Star, Archive, Lock } from 'lucide-react'
 import PasswordModal from './PasswordModal.tsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/custom.css'
-import SecretSearchBar from './SecretSearchBar'
+import SecretSearchBar from './SecretSearchBar.tsx'
 
 export default function SecretNotes({ onClose }) {
   const [notes, setNotes] = useState([])
